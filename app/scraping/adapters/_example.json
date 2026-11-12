@@ -1,0 +1,9 @@
+{
+  "domain": "example.com",
+  "currency": "PLN",
+  "selectors": {
+    "price": ".product-price, span.price",
+    "title": "h1.product-name",
+    "image": "meta[property=\"og:image\"]"
+  }
+}

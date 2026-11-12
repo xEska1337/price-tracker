@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+*.db
+.env
+web/node_modules/
+web/dist/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+.scratch/
+.playwright-browsers/

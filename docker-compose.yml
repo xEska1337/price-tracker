@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://pricetrack:pricetrack@db:5432/pricetrack
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      DEFAULT_INTERVAL: 24h
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pricetrack
+      POSTGRES_PASSWORD: pricetrack
+      POSTGRES_DB: pricetrack
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pricetrack -d pricetrack"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
